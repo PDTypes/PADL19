@@ -1,12 +1,22 @@
+-- Proof Carrying Plans, (supporting Agda code)
+-- by C.Schwaab, A.Hill, F.Farka and E.Komendantskaya
+-- This file defines Planning languages as types, plans as prrof terms approach to PDDL 
+
 open import Relation.Binary
 open import Relation.Binary.PropositionalEquality
 open import Level
 
+--------------------------------------------------------
+-- Section 3: Definition of formulae, possible world semantics, actions, plans
+
+--
+-- The following module declarartion allows to develop the file parametrised on an abstract set R of predicates
+-- an an abstract set A of declared actions. The former must have decidable equivalence.
+
 module PCPlans {Action : Set} {R : Set } {isDE : IsDecEquivalence {A = R} (_≡_) } where
 
-
---------------------------------
--- Language of propositions
+-- Figure 2 and 3
+-- Formulae: 
 --
 -- Form ::= A | ¬ A | Form ∧ Form
 --
@@ -17,6 +27,10 @@ data Form : Set where
 infixl 4 _∧_
 infixl 5 ¬_
 
+
+--------------------------------------------------------
+-- Figure 4. Possible worlds 
+--
 
 open import Data.List
 
@@ -30,10 +44,15 @@ neg : Polarity → Polarity
 neg + = -
 neg - = +
 
+--------------------------------------------------------
+-- Figure 6. Declarative (possible world) semantics
+-- 
 
 open import Data.List.Membership.Propositional
---open import Data.List.Any.Membership.Propositional
+--open import Data.List.Any.Membership.Propositional 
 
+
+-- Entailment Relation
 infix 3 _⊨[_]_
 data _⊨[_]_ : World → Polarity → Form → Set where
   flip : ∀{w t A} → w ⊨[ neg t ] (atom A) → w ⊨[ t ] ¬ A
@@ -43,25 +62,30 @@ data _⊨[_]_ : World → Polarity → Form → Set where
 
 open import Data.Product
 
+-- A list containing pairs of polarities and predicates
 NPred : Set
 NPred = List (Polarity × R)
 
-_∈⟨_⟩ : World → NPred → Set
-w ∈⟨ N ⟩ = (∀ a → (+ , a) ∈ N → a ∈ w) × (∀ a → (- , a) ∈ N → a ∉ w)
-
+-- Operational Semantics: normalisation function
 infixr 3 _↓[_]_
 _↓[_]_ : Form → Polarity → NPred → NPred
 P ∧ Q ↓[ t ] N = Q ↓[ t ] P ↓[ t ] N
 ¬ x ↓[ t ] N = (neg t , x) ∷ N
 atom x ↓[ t ] N = (t , x) ∷ N
 
-infix 3 _<:_
-data _<:_ : NPred → NPred → Set where
-  []<:_ : ∀ N → [] <: N
-  atom<: : ∀{t x N M} → (t , x) ∈ M → N <: M → (t , x) ∷ N <: M
+--------------------------------------------------------
+
+
+_∈⟨_⟩ : World → NPred → Set
+w ∈⟨ N ⟩ = (∀ a → (+ , a) ∈ N → a ∈ w) × (∀ a → (- , a) ∈ N → a ∉ w)
 
 
 open import Data.List.Any
+
+--------------------------------------------------------
+-- Code for the Soundness and Completeness proofs
+--
+-- We first prove some auxiliary lemmas:
 
 weakening : ∀ t₁ t₂ P Q N a -> (t₁ , a) ∈ (P ↓[ t₂ ] N) -> (t₁ , a) ∈ (Q ↓[ t₂ ] P ↓[ t₂ ] N)
 weakening t₁ t₂ P (Q ∧ Q₁) N a x = weakening t₁ t₂ Q Q₁ (P ↓[ t₂ ] N) a (weakening t₁ t₂ P Q N a x)
@@ -84,16 +108,14 @@ lemma-transport-r t (P ∧ Q) M N = trans
 lemma-transport-r t (¬ A) M N = refl
 lemma-transport-r t (atom x) M N = refl
 
-{-
+
 -- older stdlib
- -}
 {-
 open import Algebra 
 ++-assoc :  (x x₁ x₂ : List ( Polarity × R)) →  (x ++ x₁) ++ x₂ ≡ x ++ x₁ ++ x₂
 ++-assoc = Monoid.assoc (monoid (Polarity × R))-}
 
-  {-newer stdlib-} 
-
+--newer stdlib
 open import Data.List.Properties
 
 
@@ -166,7 +188,7 @@ open import AnyLemma
   = there (∈-exchange a₁ t1 t2 (atom x₂) (atom x₁) N1 N2 x)
 
 --
--- ∈⟨⟩-exchange lemma (was cAgg )
+-- ∈⟨⟩-exchange lemma 
 --
 -- a wrapper around ∈-exchange
 --
@@ -192,7 +214,7 @@ open import AnyLemma
 
 
 --
--- soundness of operational semantics
+-- soundness of operational semantics (Theorem 1)
 --
 ↓-sound : ∀{w t P} → w ∈⟨ P ↓[ t ] [] ⟩ → w ⊨[ t ] P
 ↓-sound {w} {t} {P ∧ Q} x
@@ -203,10 +225,6 @@ open import AnyLemma
 ↓-sound {w} {+} {atom p} (proj1 , proj2) = somewhere (proj1 p (here refl))
 ↓-sound {w} { - } {atom p} (proj1 , proj2) = nowhere (proj2 p (here refl))
 
-
-
-
----------------------------------
 
 open import Data.Sum
 
@@ -245,13 +263,6 @@ strengthening t₁ t₂ (atom x₂) (¬ x₁) N a (there (there x)) = inj₁ (th
 strengthening t₁ t₂ P (atom x₁) N a (here px) = inj₁ (here px)
 strengthening t₁ t₂ P (atom x₁) N a (there x) = inj₂ x
 
-
---
--- ∈⟨⟩-strengthening
---
-
-
-
 helperPos :  ∀ w t P Q N a → (w ∈⟨ P ↓[ t ] N ⟩) -> (w ∈⟨ Q ↓[ t ] N ⟩)
            -> (+ , a) ∈ (Q ↓[ t ] P ↓[ t ] N)
            -> a ∈ w
@@ -277,9 +288,8 @@ helperNeg w t P Q N a x x1 x2 x3 | inj₂ y = proj₂ x a y x3
 
 
 --
--- completeness
+-- Completeness of operational semantics (Theorem 1)
 --
-
 ↓-complete : ∀{w t P} → w ⊨[ t ] P → w ∈⟨ P ↓[ t ] [] ⟩
 ↓-complete {w} {t} {P ∧ Q} (both x y)
   = ∈⟨⟩-strengthening w t P Q [] (↓-complete x) (↓-complete y)
@@ -305,15 +315,34 @@ helperNeg w t P Q N a x x1 x2 x3 | inj₂ y = proj₂ x a y x3
        ; a (there ()) x₃})
 
 ---------------------------------------------------------------
-
-Γ : Set
-Γ = Action → NPred × NPred
+-- Figure 7: Plans
+--
 
 data Plan : Set where
   doAct : Action → Plan → Plan
   halt : Plan
 
---open IsDecEquivalence
+---------------------------------------------------------------
+-- Figure 8
+-- 
+
+-- Context
+Γ : Set
+Γ = Action → NPred × NPred
+
+---------------------------------------------------------------
+-- Section 4: Plans as Proof terms
+-- Figure 9
+--
+
+-- Subtyping
+infix 3 _<:_
+data _<:_ : NPred → NPred → Set where
+  []<:_ : ∀ N → [] <: N
+  atom<: : ∀{t x N M} → (t , x) ∈ M → N <: M → (t , x) ∷ N <: M
+
+---------------------------------------------------------------
+
 open import Relation.Nullary
 open IsDecEquivalence isDE
 
@@ -339,7 +368,7 @@ del-∈ {(t , z) ∷ M} {y} (here refl) | no ¬p = here _≡_.refl
 del-∈ {(t , z) ∷ M} {y} (there x∈) | no ¬p = there (del-∈ x∈) 
 
 
-
+-- Right-biased union operator
 _⊔N_ : NPred → NPred → NPred
 M ⊔N [] = M
 M ⊔N ((t , x) ∷ N) = (t , x) ∷ del x M ⊔N N
@@ -361,6 +390,9 @@ M ⊔N ((t , x) ∷ N) = (t , x) ∷ del x M ⊔N N
           h' (there -ty∈N) = -ty∉N -ty∈N
         h (inj₂ pf) = inj₂ (there pf)
 
+---------------------------------------------------------------
+-- Figure 10: well-typing relation
+--
 data _⊢_∶_↝_ : Γ → Plan → NPred → NPred → Set where
   halt : ∀{Γ M' M} → M' <: M → Γ ⊢ halt ∶ M ↝ M'
   seq : ∀{α M₁' M₁ M₂ M₃ Γ f}
@@ -368,14 +400,21 @@ data _⊢_∶_↝_ : Γ → Plan → NPred → NPred → Set where
       → Γ α ≡ (M₁' , M₂)
       → Γ ⊢ f ∶ M₁ ⊔N M₂ ↝ M₃
       → Γ ⊢ doAct α f ∶ M₁ ↝ M₃
+---------------------------------------------------------------
+-- Figure 12
+--
 
+-- Action Handler
 ActionHandler : Set
 ActionHandler = Action → World → World
 
+-- Evalutation function
 ⟦_⟧ : Plan → ActionHandler → World → World
 ⟦ doAct α f ⟧ σ w = ⟦ f ⟧ σ (σ α w)
 ⟦ halt ⟧ σ w = w
 
+
+-- Well formed handler
 WfHandler : Γ → ActionHandler → Set
 WfHandler Γ σ =
   ∀{α M M' N} → Γ α ≡ (M' , N) → M' <: M → ∀{w} → w ∈⟨ M ⟩ → σ α w ∈⟨ M ⊔N N ⟩
@@ -404,6 +443,18 @@ remove-spec x (y ∷ w) | no ¬p = contr
     contr (here x≡y) = ¬p x≡y
     contr (there x∈) = remove-spec x w x∈
 
+-- World constructor from state
+σα : NPred → World → World
+σα [] w = w
+σα ((+ , x) ∷ N) w = x ∷ σα N w
+σα ((- , x) ∷ N) w = remove x (σα N w)
+
+-- Canonical Handler
+canonical-σ : Γ → ActionHandler
+canonical-σ Γ α = σα (proj₂ (Γ α))
+
+---------------------------------------------------------------
+
 ∉-tail : {A : Set} {xs : List A} {x y : A} → x ∉ y ∷ xs → x ∉ xs
 ∉-tail x∉y∷ys x∈ys = x∉y∷ys (there x∈ys)
 
@@ -420,14 +471,6 @@ remove-resp-∉ {x ∷ N} x∉N {y} x∈N' with y ≟ x
 remove-resp-∉ {x ∷ N} x∉N {.x} x∈N' | yes refl = remove-resp-∉ (∉-tail x∉N) x∈N'
 remove-resp-∉ {x ∷ N} x∉N {y} (here refl)  | no x≢y = x∉N (here _≡_.refl)
 remove-resp-∉ {x ∷ N} x∉N {y} (there x∈N') | no x≢y = remove-resp-∉ (∉-tail x∉N) x∈N'
-
-σα : NPred → World → World
-σα [] w = w
-σα ((+ , x) ∷ N) w = x ∷ σα N w
-σα ((- , x) ∷ N) w = remove x (σα N w)
-
-canonical-σ : Γ → ActionHandler
-canonical-σ Γ α = σα (proj₂ (Γ α))
 
 sym≢ : {A : Set} → {x y : A} → x ≢ y → y ≢ x
 sym≢ x≢y refl = x≢y _≡_.refl
@@ -489,6 +532,9 @@ postulate
   h (inj₁ +x∈N) = +x∉N (there +x∈N)
   h (inj₂ x∈w)  = x∉w x∈w
 
+
+-- Proposition 1: The canonical handler is well-formed
+
 wf-canonical-σ : ∀ Γ → WfHandler Γ (canonical-σ Γ)
 wf-canonical-σ Γ {α} {M} {.(proj₁ (Γ α))} {.(proj₂ (Γ α))} refl M'<:M {w} w∈⟨M⟩ =
   (λ a +a∈M → lt a (⊔-union +a∈M)) ,
@@ -514,6 +560,10 @@ wf-canonical-σ Γ {α} {M} {.(proj₁ (Γ α))} {.(proj₂ (Γ α))} refl M'<:M
     proj₂ w∈⟨M⟩ a' (subst (λ tx → tx ∈ M) (Relation.Binary.PropositionalEquality.sym px) tx∈M) a'∈w
   rt a' (there -a'∈N) a'∈w = proj₂ ih a' -a'∈N a'∈w
 
+---------------------------------------------------------------
+-- Theorem 2: Soundness of evaluation of normalised formula
+--
+
 sound : ∀{w σ M Γ f N}
       → WfHandler Γ σ
       → Γ ⊢ f ∶ M ↝ N
@@ -525,6 +575,9 @@ sound {w}{σ}{M} wfσ (seq {α}{M₁'}{M₁}{M₂} M₁'<:M Γα≡M₁',M₂ Γ
   where σαw∈⟨M⊔NM₂⟩ : σ α w ∈⟨ M ⊔N M₂ ⟩ 
         σαw∈⟨M⊔NM₂⟩ = wfσ {M = M} Γα≡M₁',M₂ M₁'<:M w∈⟨M⟩
 
+---------------------------------------------------------------
+-- Theorem 3: Soundness of evaluation
+--
 _↓₊ : Form → NPred
 P ↓₊ = P ↓[ + ] []
 
@@ -538,3 +591,4 @@ sound' {Γ}{f}{P}{Q}{σ} wfσ Γ⊢f∶P↓₊↝Q↓₊ {w} w⊨₊P = ↓-soun
         h = sound wfσ Γ⊢f∶P↓₊↝Q↓₊ (↓-complete w⊨₊P)
 
 
+---------------------------------------------------------------
