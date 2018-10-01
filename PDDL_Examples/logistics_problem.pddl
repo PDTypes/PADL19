@@ -50,8 +50,6 @@
     )
 
     (:goal
-        (and
             (isAt package1 office2)
-        )
     )
 )
