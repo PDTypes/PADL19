@@ -1,4 +1,3 @@
--- this file gives a worked-out example of the Blockworld problem from PDDL literature
 module PCPlans_naughty where
 
 open import Relation.Binary.PropositionalEquality
