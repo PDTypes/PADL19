@@ -1,0 +1,10 @@
+*.agdai
+*.agda~
+*.aux
+*.log
+*.pdf
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.sw*

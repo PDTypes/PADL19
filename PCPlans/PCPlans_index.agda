@@ -30,3 +30,9 @@ open import PCPlans_blocksworld
 
 open import PCPlans_logistics
 
+--------------------------------------------------------
+-- The following module contains encoding of a simple example
+-- that demonstrates violation of the implicit consistency assumpion
+--
+
+open import PCPlans_naughty
