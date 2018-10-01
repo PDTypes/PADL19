@@ -368,7 +368,7 @@ del-∈ {(t , z) ∷ M} {y} (here refl) | no ¬p = here _≡_.refl
 del-∈ {(t , z) ∷ M} {y} (there x∈) | no ¬p = there (del-∈ x∈) 
 
 
--- Right-biased union operator
+-- Override operator
 _⊔N_ : NPred → NPred → NPred
 M ⊔N [] = M
 M ⊔N ((t , x) ∷ N) = (t , x) ∷ del x M ⊔N N
