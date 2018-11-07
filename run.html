@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>run</title><link rel="stylesheet" href="Agda.css"></head><body><pre><a id="1" class="Keyword">module</a> <a id="8" href="run.html" class="Module">run</a> <a id="12" class="Keyword">where</a>
+
+<a id="19" class="Keyword">open</a> <a id="24" class="Keyword">import</a> <a id="31" href="PCPlans_blocksworld.html" class="Module Operator">PCPlans_blocksworld</a>
+<a id="51" class="Keyword">open</a> <a id="56" class="Keyword">import</a> <a id="63" href="Agda.Builtin.IO.html" class="Module">Agda.Builtin.IO</a>
+<a id="79" class="Keyword">open</a> <a id="84" class="Keyword">import</a> <a id="91" href="Agda.Builtin.Unit.html" class="Module">Agda.Builtin.Unit</a>
+<a id="109" class="Keyword">open</a> <a id="114" class="Keyword">import</a> <a id="121" href="Agda.Builtin.String.html" class="Module">Agda.Builtin.String</a>
+<a id="141" class="Keyword">open</a> <a id="146" class="Keyword">import</a> <a id="153" href="Agda.Builtin.Reflection.html" class="Module">Agda.Builtin.Reflection</a>
+<a id="177" class="Keyword">open</a> <a id="182" class="Keyword">import</a> <a id="189" href="Data.List.html" class="Module">Data.List</a>
+<a id="199" class="Keyword">open</a> <a id="204" class="Keyword">import</a> <a id="211" href="Data.String.html" class="Module">Data.String</a>
+
+
+<a id="225" class="Keyword">postulate</a>
+  <a id="putStrLn"></a><a id="237" href="run.html#237" class="Postulate">putStrLn</a> <a id="246" class="Symbol">:</a> <a id="248" href="Agda.Builtin.String.html#165" class="Postulate">String</a> <a id="255" class="Symbol">→</a> <a id="257" href="Agda.Builtin.IO.html#70" class="Postulate">IO</a> <a id="260" href="Agda.Builtin.Unit.html#69" class="Record">⊤</a>
+
+<a id="263" class="Symbol">{-#</a> <a id="267" class="Keyword">FOREIGN</a> GHC import qualified Data.Text.IO as Text <a id="317" class="Symbol">#-}</a>
+<a id="321" class="Symbol">{-#</a> <a id="325" class="Keyword">COMPILE</a> GHC <a id="337" href="run.html#237" class="Postulate">putStrLn</a> = Text.putStrLn <a id="362" class="Symbol">#-}</a>
+
+
+
+<a id="369" class="Keyword">open</a> <a id="374" class="Keyword">import</a> <a id="381" href="Tactic.Deriving.Eq.html" class="Module">Tactic.Deriving.Eq</a>
+
+<a id="showC"></a><a id="401" href="run.html#401" class="Function">showC</a> <a id="407" class="Symbol">:</a> <a id="409" href="PCPlans_blocksworld.html#522" class="Datatype">C</a> <a id="411" class="Symbol">-&gt;</a> <a id="414" href="Agda.Builtin.String.html#165" class="Postulate">String</a>
+<a id="421" href="run.html#401" class="Function">showC</a> <a id="427" href="PCPlans_blocksworld.html#538" class="InductiveConstructor">a</a> <a id="429" class="Symbol">=</a> <a id="431" class="String">&quot;a &quot;</a>
+<a id="436" href="run.html#401" class="Function">showC</a> <a id="442" href="PCPlans_blocksworld.html#540" class="InductiveConstructor">b</a> <a id="444" class="Symbol">=</a> <a id="446" class="String">&quot;b &quot;</a>
+<a id="451" href="run.html#401" class="Function">showC</a> <a id="457" href="PCPlans_blocksworld.html#542" class="InductiveConstructor">c</a> <a id="459" class="Symbol">=</a> <a id="461" class="String">&quot;c &quot;</a>
+
+<a id="showR"></a><a id="467" href="run.html#467" class="Function">showR</a> <a id="473" class="Symbol">:</a> <a id="475" href="PCPlans_blocksworld.html#693" class="Datatype">R</a> <a id="477" class="Symbol">-&gt;</a> <a id="480" href="Agda.Builtin.String.html#165" class="Postulate">String</a>
+<a id="487" href="run.html#467" class="Function">showR</a> <a id="493" href="PCPlans_blocksworld.html#709" class="InductiveConstructor">handEmpty</a> <a id="503" class="Symbol">=</a> <a id="505" class="String">&quot;handEmpty &quot;</a>
+<a id="518" href="run.html#467" class="Function">showR</a> <a id="524" class="Symbol">(</a><a id="525" href="PCPlans_blocksworld.html#725" class="InductiveConstructor">onTable</a> <a id="533" href="run.html#533" class="Bound">x</a><a id="534" class="Symbol">)</a> <a id="536" class="Symbol">=</a> <a id="538" class="String">&quot;onTable &quot;</a> <a id="549" href="Data.String.Base.html#1172" class="Function Operator">Data.String.++</a> <a id="564" href="run.html#401" class="Function">showC</a> <a id="570" href="run.html#533" class="Bound">x</a>
+<a id="572" href="run.html#467" class="Function">showR</a> <a id="578" class="Symbol">(</a><a id="579" href="PCPlans_blocksworld.html#743" class="InductiveConstructor">clear</a> <a id="585" href="run.html#585" class="Bound">x</a><a id="586" class="Symbol">)</a> <a id="588" class="Symbol">=</a> <a id="590" class="String">&quot;clear &quot;</a> <a id="599" href="Data.String.Base.html#1172" class="Function Operator">Data.String.++</a> <a id="614" href="run.html#401" class="Function">showC</a> <a id="620" href="run.html#585" class="Bound">x</a>
+<a id="622" href="run.html#467" class="Function">showR</a> <a id="628" class="Symbol">(</a><a id="629" href="PCPlans_blocksworld.html#759" class="InductiveConstructor">holding</a> <a id="637" href="run.html#637" class="Bound">x</a><a id="638" class="Symbol">)</a> <a id="640" class="Symbol">=</a> <a id="642" class="String">&quot;holding &quot;</a> <a id="653" href="Data.String.Base.html#1172" class="Function Operator">Data.String.++</a> <a id="668" href="run.html#401" class="Function">showC</a> <a id="674" href="run.html#637" class="Bound">x</a>
+<a id="676" href="run.html#467" class="Function">showR</a> <a id="682" class="Symbol">(</a><a id="683" href="PCPlans_blocksworld.html#777" class="InductiveConstructor">on</a> <a id="686" href="run.html#686" class="Bound">x</a> <a id="688" href="run.html#688" class="Bound">x1</a><a id="690" class="Symbol">)</a> <a id="692" class="Symbol">=</a> <a id="694" class="String">&quot;on &quot;</a> <a id="700" href="Data.String.Base.html#1172" class="Function Operator">Data.String.++</a> <a id="715" href="run.html#401" class="Function">showC</a> <a id="721" href="run.html#686" class="Bound">x</a> <a id="723" href="Data.String.Base.html#1172" class="Function Operator">Data.String.++</a> <a id="738" href="run.html#401" class="Function">showC</a> <a id="744" href="run.html#688" class="Bound">x1</a> 
+
+<a id="showEval"></a><a id="749" href="run.html#749" class="Function">showEval</a> <a id="758" class="Symbol">:</a> <a id="760" href="Agda.Builtin.List.html#80" class="Datatype">List</a> <a id="765" href="PCPlans_blocksworld.html#693" class="Datatype">R</a> <a id="767" class="Symbol">-&gt;</a> <a id="770" href="Agda.Builtin.String.html#165" class="Postulate">String</a>
+<a id="777" href="run.html#749" class="Function">showEval</a> <a id="786" href="Agda.Builtin.List.html#117" class="InductiveConstructor">[]</a> <a id="789" class="Symbol">=</a> <a id="791" class="String">&quot;&quot;</a>
+<a id="794" href="run.html#749" class="Function">showEval</a> <a id="803" class="Symbol">(</a><a id="804" href="run.html#804" class="Bound">x</a> <a id="806" href="Agda.Builtin.List.html#132" class="InductiveConstructor Operator">∷</a> <a id="808" href="run.html#808" class="Bound">xs</a><a id="810" class="Symbol">)</a> <a id="812" class="Symbol">=</a> <a id="814" href="run.html#467" class="Function">showR</a> <a id="820" href="run.html#804" class="Bound">x</a> <a id="822" href="Data.String.Base.html#1172" class="Function Operator">Data.String.++</a> <a id="837" class="Symbol">(</a><a id="838" href="run.html#749" class="Function">showEval</a> <a id="847" href="run.html#808" class="Bound">xs</a><a id="849" class="Symbol">)</a>
+
+<a id="main"></a><a id="852" href="run.html#852" class="Function">main</a> <a id="857" class="Symbol">:</a> <a id="859" href="Agda.Builtin.IO.html#70" class="Postulate">IO</a> <a id="862" href="Agda.Builtin.Unit.html#69" class="Record">⊤</a>
+<a id="864" href="run.html#852" class="Function">main</a> <a id="869" class="Symbol">=</a> <a id="871" href="run.html#237" class="Postulate">putStrLn</a> <a id="880" class="Symbol">(</a><a id="881" href="run.html#749" class="Function">showEval</a> <a id="890" href="PCPlans_blocksworld.html#5409" class="Function">world-eval</a><a id="900" class="Symbol">)</a>
+</pre></body></html>

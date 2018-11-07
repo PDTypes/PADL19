@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Prelude.Bytes</title><link rel="stylesheet" href="Agda.css"></head><body><pre><a id="1" class="Keyword">module</a> <a id="8" href="Prelude.Bytes.html" class="Module">Prelude.Bytes</a> <a id="22" class="Keyword">where</a>
+
+<a id="29" class="Keyword">open</a> <a id="34" class="Keyword">import</a> <a id="41" href="Prelude.Bool.html" class="Module">Prelude.Bool</a>
+<a id="54" class="Keyword">open</a> <a id="59" class="Keyword">import</a> <a id="66" href="Prelude.Decidable.html" class="Module">Prelude.Decidable</a>
+<a id="84" class="Keyword">open</a> <a id="89" class="Keyword">import</a> <a id="96" href="Prelude.Equality.html" class="Module">Prelude.Equality</a>
+<a id="113" class="Keyword">open</a> <a id="118" class="Keyword">import</a> <a id="125" href="Prelude.Equality.Unsafe.html" class="Module">Prelude.Equality.Unsafe</a>
+
+<a id="150" class="Symbol">{-#</a> <a id="154" class="Keyword">FOREIGN</a> GHC import qualified Data.ByteString as B <a id="204" class="Symbol">#-}</a>
+
+<a id="209" class="Keyword">postulate</a>
+  <a id="Bytes"></a><a id="221" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a> <a id="227" class="Symbol">:</a> <a id="229" class="PrimitiveType">Set</a>
+<a id="233" class="Symbol">{-#</a> <a id="237" class="Keyword">COMPILE</a> GHC <a id="249" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a> = type B.ByteString <a id="275" class="Symbol">#-}</a>
+
+
+<a id="281" class="Keyword">private</a>
+  <a id="291" class="Keyword">module</a> <a id="Internal"></a><a id="298" href="Prelude.Bytes.html#298" class="Module">Internal</a> <a id="307" class="Keyword">where</a>
+    <a id="317" class="Keyword">postulate</a>
+      <a id="Internal.empty"></a><a id="333" href="Prelude.Bytes.html#333" class="Postulate">empty</a> <a id="339" class="Symbol">:</a> <a id="341" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a>
+      <a id="Internal.append"></a><a id="353" href="Prelude.Bytes.html#353" class="Postulate">append</a> <a id="360" class="Symbol">:</a> <a id="362" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a> <a id="368" class="Symbol">→</a> <a id="370" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a> <a id="376" class="Symbol">→</a> <a id="378" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a>
+    <a id="388" class="Symbol">{-#</a> <a id="392" class="Keyword">COMPILE</a> GHC <a id="404" href="Prelude.Bytes.html#333" class="Postulate">empty</a>  = B.empty <a id="421" class="Symbol">#-}</a>
+    <a id="429" class="Symbol">{-#</a> <a id="433" class="Keyword">COMPILE</a> GHC <a id="445" href="Prelude.Bytes.html#353" class="Postulate">append</a> = B.append <a id="463" class="Symbol">#-}</a>
+
+<a id="468" class="Comment">-- Eq --</a>
+
+<a id="478" class="Keyword">private</a>
+  <a id="488" class="Keyword">postulate</a> <a id="eqBytes"></a><a id="498" href="Prelude.Bytes.html#498" class="Postulate">eqBytes</a> <a id="506" class="Symbol">:</a> <a id="508" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a> <a id="514" class="Symbol">→</a> <a id="516" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a> <a id="522" class="Symbol">→</a> <a id="524" href="Agda.Builtin.Bool.html#67" class="Datatype">Bool</a>
+  <a id="531" class="Symbol">{-#</a> <a id="535" class="Keyword">COMPILE</a> GHC <a id="547" href="Prelude.Bytes.html#498" class="Postulate">eqBytes</a> = (==) <a id="562" class="Symbol">#-}</a>
+
+<a id="567" class="Keyword">instance</a>
+  <a id="EqBytes"></a><a id="578" href="Prelude.Bytes.html#578" class="Function">EqBytes</a> <a id="586" class="Symbol">:</a> <a id="588" href="Prelude.Equality.html#113" class="Record">Eq</a> <a id="591" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a>
+  <a id="599" href="Prelude.Equality.html#173" class="Field Operator">_==_</a> <a id="604" class="Symbol">{{</a><a id="606" href="Prelude.Bytes.html#578" class="Function">EqBytes</a><a id="613" class="Symbol">}}</a> <a id="616" href="Prelude.Bytes.html#616" class="Bound">x</a> <a id="618" href="Prelude.Bytes.html#618" class="Bound">y</a> <a id="620" class="Keyword">with</a> <a id="625" href="Prelude.Bytes.html#498" class="Postulate">eqBytes</a> <a id="633" href="Prelude.Bytes.html#616" class="Bound">x</a> <a id="635" href="Prelude.Bytes.html#618" class="Bound">y</a>
+  <a id="639" class="Symbol">...</a> <a id="643" class="Symbol">|</a> <a id="645" href="Agda.Builtin.Bool.html#92" class="InductiveConstructor">true</a> <a id="650" class="Symbol">=</a> <a id="652" href="Prelude.Decidable.html#102" class="InductiveConstructor">yes</a> <a id="656" href="Prelude.Equality.Unsafe.html#246" class="Function">unsafeEqual</a>
+  <a id="670" class="Symbol">...</a> <a id="674" class="Symbol">|</a> <a id="676" href="Agda.Builtin.Bool.html#86" class="InductiveConstructor">false</a> <a id="682" class="Symbol">=</a> <a id="684" href="Prelude.Decidable.html#120" class="InductiveConstructor">no</a> <a id="687" href="Prelude.Equality.Unsafe.html#438" class="Function">unsafeNotEqual</a>
+
+<a id="703" class="Comment">-- Monoid --</a>
+
+<a id="717" class="Keyword">instance</a>
+  <a id="728" class="Keyword">open</a> <a id="733" class="Keyword">import</a> <a id="740" href="Prelude.Monoid.html" class="Module">Prelude.Monoid</a>
+  <a id="MonoidBytes"></a><a id="757" href="Prelude.Bytes.html#757" class="Function">MonoidBytes</a> <a id="769" class="Symbol">:</a> <a id="771" href="Prelude.Monoid.html#208" class="Record">Monoid</a> <a id="778" href="Prelude.Bytes.html#221" class="Postulate">Bytes</a>
+  <a id="786" href="Prelude.Monoid.html#273" class="Field">mempty</a> <a id="793" class="Symbol">{{</a><a id="795" href="Prelude.Bytes.html#757" class="Function">MonoidBytes</a><a id="806" class="Symbol">}}</a> <a id="809" class="Symbol">=</a> <a id="811" href="Prelude.Bytes.html#333" class="Postulate">Internal.empty</a>
+  <a id="828" href="Prelude.Monoid.html#288" class="Field Operator">_&lt;&gt;_</a>   <a id="835" class="Symbol">{{</a><a id="837" href="Prelude.Bytes.html#757" class="Function">MonoidBytes</a><a id="848" class="Symbol">}}</a> <a id="851" class="Symbol">=</a> <a id="853" href="Prelude.Bytes.html#353" class="Postulate">Internal.append</a>
+</pre></body></html>

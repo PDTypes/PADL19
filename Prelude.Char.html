@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Prelude.Char</title><link rel="stylesheet" href="Agda.css"></head><body><pre>
+<a id="2" class="Keyword">module</a> <a id="9" href="Prelude.Char.html" class="Module">Prelude.Char</a> <a id="22" class="Keyword">where</a>
+
+<a id="29" class="Keyword">open</a> <a id="34" class="Keyword">import</a> <a id="41" href="Prelude.Bool.html" class="Module">Prelude.Bool</a>
+<a id="54" class="Keyword">open</a> <a id="59" class="Keyword">import</a> <a id="66" href="Prelude.Nat.html" class="Module">Prelude.Nat</a>
+<a id="78" class="Keyword">open</a> <a id="83" class="Keyword">import</a> <a id="90" href="Prelude.Equality.html" class="Module">Prelude.Equality</a>
+<a id="107" class="Keyword">open</a> <a id="112" class="Keyword">import</a> <a id="119" href="Prelude.Equality.Unsafe.html" class="Module">Prelude.Equality.Unsafe</a>
+<a id="143" class="Keyword">open</a> <a id="148" class="Keyword">import</a> <a id="155" href="Prelude.Decidable.html" class="Module">Prelude.Decidable</a>
+<a id="173" class="Keyword">open</a> <a id="178" class="Keyword">import</a> <a id="185" href="Prelude.Function.html" class="Module">Prelude.Function</a>
+<a id="202" class="Keyword">open</a> <a id="207" class="Keyword">import</a> <a id="214" href="Prelude.Ord.html" class="Module">Prelude.Ord</a>
+
+<a id="227" class="Keyword">open</a> <a id="232" class="Keyword">import</a> <a id="239" href="Agda.Builtin.Char.html" class="Module">Agda.Builtin.Char</a>
+<a id="257" class="Keyword">open</a> <a id="262" href="Agda.Builtin.Char.html" class="Module">Agda.Builtin.Char</a> <a id="280" class="Keyword">public</a> <a id="287" class="Keyword">using</a> <a id="293" class="Symbol">(</a><a id="294" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a><a id="298" class="Symbol">)</a>
+
+<a id="isLower"></a><a id="301" href="Prelude.Char.html#301" class="Function">isLower</a>    <a id="312" class="Symbol">=</a> <a id="314" href="Agda.Builtin.Char.html#182" class="Primitive">primIsLower</a>
+<a id="isDigit"></a><a id="326" href="Prelude.Char.html#326" class="Function">isDigit</a>    <a id="337" class="Symbol">=</a> <a id="339" href="Agda.Builtin.Char.html#194" class="Primitive">primIsDigit</a>
+<a id="isSpace"></a><a id="351" href="Prelude.Char.html#351" class="Function">isSpace</a>    <a id="362" class="Symbol">=</a> <a id="364" href="Agda.Builtin.Char.html#218" class="Primitive">primIsSpace</a>
+<a id="isAscii"></a><a id="376" href="Prelude.Char.html#376" class="Function">isAscii</a>    <a id="387" class="Symbol">=</a> <a id="389" href="Agda.Builtin.Char.html#230" class="Primitive">primIsAscii</a>
+<a id="isLatin1"></a><a id="401" href="Prelude.Char.html#401" class="Function">isLatin1</a>   <a id="412" class="Symbol">=</a> <a id="414" href="Agda.Builtin.Char.html#246" class="Primitive">primIsLatin1</a>
+<a id="isPrint"></a><a id="427" href="Prelude.Char.html#427" class="Function">isPrint</a>    <a id="438" class="Symbol">=</a> <a id="440" href="Agda.Builtin.Char.html#259" class="Primitive">primIsPrint</a>
+<a id="isHexDigit"></a><a id="452" href="Prelude.Char.html#452" class="Function">isHexDigit</a> <a id="463" class="Symbol">=</a> <a id="465" href="Agda.Builtin.Char.html#271" class="Primitive">primIsHexDigit</a>
+<a id="isAlpha"></a><a id="480" href="Prelude.Char.html#480" class="Function">isAlpha</a>    <a id="491" class="Symbol">=</a> <a id="493" href="Agda.Builtin.Char.html#206" class="Primitive">primIsAlpha</a>
+
+<a id="toUpper"></a><a id="506" href="Prelude.Char.html#506" class="Function">toUpper</a>    <a id="517" class="Symbol">=</a> <a id="519" href="Agda.Builtin.Char.html#302" class="Primitive">primToUpper</a>
+<a id="toLower"></a><a id="531" href="Prelude.Char.html#531" class="Function">toLower</a>    <a id="542" class="Symbol">=</a> <a id="544" href="Agda.Builtin.Char.html#314" class="Primitive">primToLower</a>
+
+<a id="isAlphaNum"></a><a id="557" href="Prelude.Char.html#557" class="Function">isAlphaNum</a> <a id="568" class="Symbol">:</a> <a id="570" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a> <a id="575" class="Symbol">→</a> <a id="577" href="Agda.Builtin.Bool.html#67" class="Datatype">Bool</a>
+<a id="582" href="Prelude.Char.html#557" class="Function">isAlphaNum</a> <a id="593" href="Prelude.Char.html#593" class="Bound">c</a> <a id="595" class="Symbol">=</a> <a id="597" href="Prelude.Char.html#480" class="Function">isAlpha</a> <a id="605" href="Prelude.Char.html#593" class="Bound">c</a> <a id="607" href="Prelude.Bool.html#395" class="Function Operator">||</a> <a id="610" href="Prelude.Char.html#326" class="Function">isDigit</a> <a id="618" href="Prelude.Char.html#593" class="Bound">c</a>
+
+<a id="charToNat"></a><a id="621" href="Prelude.Char.html#621" class="Function">charToNat</a>  <a id="632" class="Symbol">=</a> <a id="634" href="Agda.Builtin.Char.html#342" class="Primitive">primCharToNat</a>
+<a id="natToChar"></a><a id="648" href="Prelude.Char.html#648" class="Function">natToChar</a>  <a id="659" class="Symbol">=</a> <a id="661" href="Agda.Builtin.Char.html#371" class="Primitive">primNatToChar</a>
+
+<a id="charToNat-inj"></a><a id="676" href="Prelude.Char.html#676" class="Function">charToNat-inj</a> <a id="690" class="Symbol">:</a> <a id="692" class="Symbol">∀</a> <a id="694" class="Symbol">{</a><a id="695" href="Prelude.Char.html#695" class="Bound">x</a> <a id="697" href="Prelude.Char.html#697" class="Bound">y</a><a id="698" class="Symbol">}</a> <a id="700" class="Symbol">→</a> <a id="702" href="Prelude.Char.html#621" class="Function">charToNat</a> <a id="712" href="Prelude.Char.html#695" class="Bound">x</a> <a id="714" href="Agda.Builtin.Equality.html#83" class="Datatype Operator">≡</a> <a id="716" href="Prelude.Char.html#621" class="Function">charToNat</a> <a id="726" href="Prelude.Char.html#697" class="Bound">y</a> <a id="728" class="Symbol">→</a> <a id="730" href="Prelude.Char.html#695" class="Bound">x</a> <a id="732" href="Agda.Builtin.Equality.html#83" class="Datatype Operator">≡</a> <a id="734" href="Prelude.Char.html#697" class="Bound">y</a>
+<a id="736" href="Prelude.Char.html#676" class="Function">charToNat-inj</a> <a id="750" class="Symbol">{</a><a id="751" href="Prelude.Char.html#751" class="Bound">x</a><a id="752" class="Symbol">}</a> <a id="754" href="Prelude.Char.html#754" class="Bound">p</a> <a id="756" class="Keyword">with</a> <a id="761" href="Prelude.Char.html#621" class="Function">charToNat</a> <a id="771" href="Prelude.Char.html#751" class="Bound">x</a>
+<a id="773" href="Prelude.Char.html#676" class="Function">charToNat-inj</a> <a id="787" href="Agda.Builtin.Equality.html#140" class="InductiveConstructor">refl</a> <a id="792" class="Symbol">|</a> <a id="794" class="DottedPattern Symbol">._</a> <a id="797" class="Symbol">=</a> <a id="799" href="Prelude.Equality.Unsafe.html#246" class="Function">unsafeEqual</a>  <a id="812" class="Comment">-- need to be strict in the proof!</a>
+
+<a id="848" class="Comment">--- Equality --</a>
+
+<a id="eqChar"></a><a id="865" href="Prelude.Char.html#865" class="Function">eqChar</a> <a id="872" class="Symbol">:</a> <a id="874" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a> <a id="879" class="Symbol">→</a> <a id="881" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a> <a id="886" class="Symbol">→</a> <a id="888" href="Agda.Builtin.Bool.html#67" class="Datatype">Bool</a>
+<a id="893" href="Prelude.Char.html#865" class="Function">eqChar</a> <a id="900" class="Symbol">=</a> <a id="902" href="Agda.Builtin.Nat.html#525" class="Primitive">eqNat</a> <a id="908" href="Prelude.Function.html#1828" class="Function Operator">on</a> <a id="911" href="Prelude.Char.html#621" class="Function">charToNat</a>
+
+<a id="922" class="Keyword">instance</a>
+  <a id="EqChar"></a><a id="933" href="Prelude.Char.html#933" class="Function">EqChar</a> <a id="940" class="Symbol">:</a> <a id="942" href="Prelude.Equality.html#113" class="Record">Eq</a> <a id="945" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a>
+  <a id="952" href="Prelude.Equality.html#173" class="Field Operator">_==_</a> <a id="957" class="Symbol">{{</a><a id="959" href="Prelude.Char.html#933" class="Function">EqChar</a><a id="965" class="Symbol">}}</a> <a id="968" href="Prelude.Char.html#968" class="Bound">x</a> <a id="970" href="Prelude.Char.html#970" class="Bound">y</a> <a id="972" class="Keyword">with</a> <a id="977" href="Prelude.Char.html#865" class="Function">eqChar</a> <a id="984" href="Prelude.Char.html#968" class="Bound">x</a> <a id="986" href="Prelude.Char.html#970" class="Bound">y</a>
+  <a id="990" class="Symbol">...</a> <a id="994" class="Symbol">|</a> <a id="996" href="Agda.Builtin.Bool.html#86" class="InductiveConstructor">false</a> <a id="1002" class="Symbol">=</a> <a id="1004" href="Prelude.Decidable.html#120" class="InductiveConstructor">no</a>  <a id="1008" href="Prelude.Equality.Unsafe.html#438" class="Function">unsafeNotEqual</a>
+  <a id="1025" class="Symbol">...</a> <a id="1029" class="Symbol">|</a> <a id="1031" href="Agda.Builtin.Bool.html#92" class="InductiveConstructor">true</a>  <a id="1037" class="Symbol">=</a> <a id="1039" href="Prelude.Decidable.html#102" class="InductiveConstructor">yes</a> <a id="1043" href="Prelude.Equality.Unsafe.html#246" class="Function">unsafeEqual</a>
+
+<a id="1056" class="Comment">-- Missing primitive isUpper</a>
+<a id="isUpper"></a><a id="1085" href="Prelude.Char.html#1085" class="Function">isUpper</a> <a id="1093" class="Symbol">:</a> <a id="1095" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a> <a id="1100" class="Symbol">→</a> <a id="1102" href="Agda.Builtin.Bool.html#67" class="Datatype">Bool</a>
+<a id="1107" href="Prelude.Char.html#1085" class="Function">isUpper</a> <a id="1115" href="Prelude.Char.html#1115" class="Bound">c</a> <a id="1117" class="Symbol">=</a> <a id="1119" href="Prelude.Bool.html#1137" class="Function">isNo</a> <a id="1124" class="Symbol">(</a><a id="1125" href="Prelude.Char.html#531" class="Function">toLower</a> <a id="1133" href="Prelude.Char.html#1115" class="Bound">c</a> <a id="1135" href="Prelude.Equality.html#173" class="Field Operator">==</a> <a id="1138" href="Prelude.Char.html#1115" class="Bound">c</a><a id="1139" class="Symbol">)</a>
+
+<a id="1142" class="Comment">--- Ord ---</a>
+
+<a id="1155" class="Keyword">instance</a>
+  <a id="OrdChar"></a><a id="1166" href="Prelude.Char.html#1166" class="Function">OrdChar</a> <a id="1174" class="Symbol">:</a> <a id="1176" href="Prelude.Ord.html#954" class="Record">Ord</a> <a id="1180" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a>
+  <a id="1187" href="Prelude.Char.html#1166" class="Function">OrdChar</a> <a id="1195" class="Symbol">=</a> <a id="1197" href="Prelude.Ord.html#3608" class="Function">OrdBy</a> <a id="1203" href="Prelude.Char.html#676" class="Function">charToNat-inj</a>
+
+  <a id="OrdLawsChar"></a><a id="1220" href="Prelude.Char.html#1220" class="Function">OrdLawsChar</a> <a id="1232" class="Symbol">:</a> <a id="1234" href="Prelude.Ord.html#4293" class="Record">Ord/Laws</a> <a id="1243" href="Agda.Builtin.Char.html#132" class="Postulate">Char</a>
+  <a id="1250" href="Prelude.Char.html#1220" class="Function">OrdLawsChar</a> <a id="1262" class="Symbol">=</a> <a id="1264" href="Prelude.Ord.html#5442" class="Function">OrdLawsBy</a> <a id="1274" href="Prelude.Char.html#676" class="Function">charToNat-inj</a>
+</pre></body></html>
