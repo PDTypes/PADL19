@@ -9,6 +9,8 @@ open import Data.List.Any
 open import Relation.Nullary using (yes; no; Dec)
 open import Level
 
+open import Tactic.Deriving.Eq
+
 --------------------------------------------------------
 -- A robot arm assembles a tower out of 3 blocks -- a, b, c 
 -- Figure 2:
@@ -17,6 +19,9 @@ open import Level
 -- Constants, or objects: a,b,c
 data C : Set where
   a b c : C
+-- EqC : Eq C
+unquoteDecl EqC = deriveEq EqC (quote C)
+
 
 -- Predicates, -- they describe properties and relations that the planner verifies
 data R : Set where
@@ -25,59 +30,14 @@ data R : Set where
   clear : C → R
   holding : C → R
   on : C → C → R
+-- EqR : Eq R
+unquoteDecl EqR = deriveEq EqR (quote R)
 
--- The following two properties are required by the main Agda file:
-
--- Decidablity of constants (objects) -- 
-_≡o?_ : Decidable (_≡_ {A = C})
-a ≡o? a = yes refl
-a ≡o? b = no (λ ())
-a ≡o? c = no (λ ())
-b ≡o? a = no (λ ())
-b ≡o? b = yes refl
-b ≡o? c = no (λ ())
-c ≡o? a = no (λ ())
-c ≡o? b = no (λ ())
-c ≡o? c = yes refl
-
--- Decidability of predicates
+open import Mangle using (mangle)
+{-
 _≡?_ : Decidable (_≡_ {A = R})
-handEmpty ≡? handEmpty = yes refl
-handEmpty ≡? onTable x = no (λ ())
-handEmpty ≡? clear x = no (λ ())
-handEmpty ≡? holding x = no (λ ())
-handEmpty ≡? on x x₁ = no (λ ())
-onTable x ≡? handEmpty = no (λ ())
-onTable x ≡? onTable x' with x ≡o? x'
-onTable x ≡? onTable .x | yes refl = yes refl
-onTable x ≡? onTable x' | no x≢x' = no λ {refl → x≢x' refl}
-onTable x ≡? clear x' = no (λ ())
-onTable x ≡? holding x' = no (λ ())
-onTable x ≡? on x' x'' = no (λ ())
-clear x ≡? handEmpty = no (λ ())
-clear x ≡? onTable x₁ = no (λ ())
-clear x ≡? clear x' with x ≡o? x'
-clear x ≡? clear .x | yes refl = yes refl
-clear x ≡? clear x' | no x≢x' = no λ {refl → x≢x' refl}
-clear x ≡? holding x₁ = no (λ ())
-clear x ≡? on x₁ x₂ = no (λ ())
-holding x ≡? handEmpty = no (λ ())
-holding x ≡? onTable x₁ = no (λ ())
-holding x ≡? clear x₁ = no (λ ())
-holding x ≡? holding x' with x ≡o? x'
-holding x ≡? holding .x | yes refl = yes refl
-holding x ≡? holding x' | no x≢x' = no λ {refl → x≢x' refl}
-holding x ≡? on x₁ x₂ = no (λ ())
-on x x₁ ≡? handEmpty = no (λ ())
-on x x₁ ≡? onTable x₂ = no (λ ())
-on x x₁ ≡? clear x₂ = no (λ ())
-on x x₁ ≡? holding x₂ = no (λ ())
-on x x₁ ≡? on x' x₁' with x ≡o? x' | x₁ ≡o? x₁'
-on x x₁ ≡? on .x .x₁ | yes refl | yes refl = yes refl
-on x x₁ ≡? on .x x₁' | yes refl | no x₁≢x₁' = no λ {refl → x₁≢x₁' refl}
-on x x₁ ≡? on x' .x₁ | no x≢x' | yes refl = no λ {refl → x≢x' refl}
-on x x₁ ≡? on x' x₁' | no x≢x' | no x₁≢x₁' = no λ {refl → x₁≢x₁' refl}
-
+_≡?_ x y = mangle x y 
+-}
 
 -- Instatiation of decidability of predicates to the IsDecEquivalence type
 isDecidable : IsDecEquivalence {zero} {zero} (_≡_ {A = R})
@@ -85,7 +45,7 @@ isDecidable = record { isEquivalence = record {
   refl = λ {x} → refl ;
   sym = λ x → sym x ;
   trans = trans } ;
-  _≟_ = _≡?_  }
+  _≟_ = mangle  }
 
 
 -- We now define the possible actions that a robot can perform: 
@@ -218,3 +178,6 @@ world-eval = ⟦ plan₁ ⟧ (canonical-σ Γ₁) wP₁
 
 formula-eval : World
 formula-eval = ⟦ plan₁ ⟧ (canonical-σ Γ₁) (σα (P₀ ↓[ + ] []) [])
+
+
+

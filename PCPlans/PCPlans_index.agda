@@ -31,8 +31,10 @@ open import PCPlans_blocksworld
 open import PCPlans_logistics
 
 --------------------------------------------------------
--- The following module contains encoding of a simple example
--- that demonstrates violation of the implicit consistency assumpion
---
+-- module run
 
-open import PCPlans_naughty
+--
+-- The following module contains a blocksworld example that 
+-- can be compiled and run using Haskell.
+
+open import run

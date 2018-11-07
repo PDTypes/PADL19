@@ -7,6 +7,9 @@ open import Level
 open import Data.List
 open import Data.List.Any
 
+
+open import Tactic.Deriving.Eq
+
 --------------------------------------------------------
 
 -- Constants
@@ -17,6 +20,10 @@ data C : Set where
     airport1 airport2
     package1 package2
     office1 office2 : C
+
+-- EqC : Eq C
+unquoteDecl EqC = deriveEq EqC (quote C)
+
 
 -- Predicates
 data R : Set where
@@ -31,258 +38,11 @@ data R : Set where
   inCity : C → C → R
   inVehicle : C → C → R
 
--- Decidablity of constants (objects)
-_≡o?_ : Decidable (_≡_ {A = C})
-truck1 ≡o? truck1 = yes refl
-truck1 ≡o? truck2 = no (λ ())
-truck1 ≡o? city1 = no (λ ())
-truck1 ≡o? city2 = no (λ ())
-truck1 ≡o? airplane1 = no (λ ())
-truck1 ≡o? airport1 = no (λ ())
-truck1 ≡o? airport2 = no (λ ())
-truck1 ≡o? package1 = no (λ ())
-truck1 ≡o? package2 = no (λ ())
-truck1 ≡o? office1 = no (λ ())
-truck1 ≡o? office2 = no (λ ())
-truck2 ≡o? truck1 = no (λ ())
-truck2 ≡o? truck2 = yes refl
-truck2 ≡o? city1 = no (λ ())
-truck2 ≡o? city2 = no (λ ())
-truck2 ≡o? airplane1 = no (λ ())
-truck2 ≡o? airport1 = no (λ ())
-truck2 ≡o? airport2 = no (λ ())
-truck2 ≡o? package1 = no (λ ())
-truck2 ≡o? package2 = no (λ ())
-truck2 ≡o? office1 = no (λ ())
-truck2 ≡o? office2 = no (λ ())
-city1 ≡o? truck1 = no (λ ())
-city1 ≡o? truck2 = no (λ ())
-city1 ≡o? city1 = yes refl
-city1 ≡o? city2 = no (λ ())
-city1 ≡o? airplane1 = no (λ ())
-city1 ≡o? airport1 = no (λ ())
-city1 ≡o? airport2 = no (λ ())
-city1 ≡o? package1 = no (λ ())
-city1 ≡o? package2 = no (λ ())
-city1 ≡o? office1 = no (λ ())
-city1 ≡o? office2 = no (λ ())
-city2 ≡o? truck1 = no (λ ())
-city2 ≡o? truck2 = no (λ ())
-city2 ≡o? city1 = no (λ ())
-city2 ≡o? city2 = yes refl
-city2 ≡o? airplane1 = no (λ ())
-city2 ≡o? airport1 = no (λ ())
-city2 ≡o? airport2 = no (λ ())
-city2 ≡o? package1 = no (λ ())
-city2 ≡o? package2 = no (λ ())
-city2 ≡o? office1 = no (λ ())
-city2 ≡o? office2 = no (λ ())
-airplane1 ≡o? truck1 = no (λ ())
-airplane1 ≡o? truck2 = no (λ ())
-airplane1 ≡o? city1 = no (λ ())
-airplane1 ≡o? city2 = no (λ ())
-airplane1 ≡o? airplane1 = yes refl
-airplane1 ≡o? airport1 = no (λ ())
-airplane1 ≡o? airport2 = no (λ ())
-airplane1 ≡o? package1 = no (λ ())
-airplane1 ≡o? package2 = no (λ ())
-airplane1 ≡o? office1 = no (λ ())
-airplane1 ≡o? office2 = no (λ ())
-airport1 ≡o? truck1 = no (λ ())
-airport1 ≡o? truck2 = no (λ ())
-airport1 ≡o? city1 = no (λ ())
-airport1 ≡o? city2 = no (λ ())
-airport1 ≡o? airplane1 = no (λ ())
-airport1 ≡o? airport1 = yes refl
-airport1 ≡o? airport2 = no (λ ())
-airport1 ≡o? package1 = no (λ ())
-airport1 ≡o? package2 = no (λ ())
-airport1 ≡o? office1 = no (λ ())
-airport1 ≡o? office2 = no (λ ())
-airport2 ≡o? truck1 = no (λ ())
-airport2 ≡o? truck2 = no (λ ())
-airport2 ≡o? city1 = no (λ ())
-airport2 ≡o? city2 = no (λ ())
-airport2 ≡o? airplane1 = no (λ ())
-airport2 ≡o? airport1 = no (λ ())
-airport2 ≡o? airport2 = yes refl
-airport2 ≡o? package1 = no (λ ())
-airport2 ≡o? package2 = no (λ ())
-airport2 ≡o? office1 = no (λ ())
-airport2 ≡o? office2 = no (λ ())
-package1 ≡o? truck1 = no (λ ())
-package1 ≡o? truck2 = no (λ ())
-package1 ≡o? city1 = no (λ ())
-package1 ≡o? city2 = no (λ ())
-package1 ≡o? airplane1 = no (λ ())
-package1 ≡o? airport1 = no (λ ())
-package1 ≡o? airport2 = no (λ ())
-package1 ≡o? package1 = yes refl
-package1 ≡o? package2 = no (λ ())
-package1 ≡o? office1 = no (λ ())
-package1 ≡o? office2 = no (λ ())
-package2 ≡o? truck1 = no (λ ())
-package2 ≡o? truck2 = no (λ ())
-package2 ≡o? city1 = no (λ ())
-package2 ≡o? city2 = no (λ ())
-package2 ≡o? airplane1 = no (λ ())
-package2 ≡o? airport1 = no (λ ())
-package2 ≡o? airport2 = no (λ ())
-package2 ≡o? package1 = no (λ ())
-package2 ≡o? package2 = yes refl
-package2 ≡o? office1 = no (λ ())
-package2 ≡o? office2 = no (λ ())
-office1 ≡o? truck1 = no (λ ())
-office1 ≡o? truck2 = no (λ ())
-office1 ≡o? city1 = no (λ ())
-office1 ≡o? city2 = no (λ ())
-office1 ≡o? airplane1 = no (λ ())
-office1 ≡o? airport1 = no (λ ())
-office1 ≡o? airport2 = no (λ ())
-office1 ≡o? package1 = no (λ ())
-office1 ≡o? package2 = no (λ ())
-office1 ≡o? office1 = yes refl
-office1 ≡o? office2 = no (λ ())
-office2 ≡o? truck1 = no (λ ())
-office2 ≡o? truck2 = no (λ ())
-office2 ≡o? city1 = no (λ ())
-office2 ≡o? city2 = no (λ ())
-office2 ≡o? airplane1 = no (λ ())
-office2 ≡o? airport1 = no (λ ())
-office2 ≡o? airport2 = no (λ ())
-office2 ≡o? package1 = no (λ ())
-office2 ≡o? package2 = no (λ ())
-office2 ≡o? office1 = no (λ ())
-office2 ≡o? office2 = yes refl
 
--- Decidability of predicates
-_≡?_ : Decidable (_≡_ {A = R})
-package x ≡? package x' with x ≡o? x'
-(package x ≡? package x') | yes refl = yes refl
-(package x ≡? package x') | no ¬p =  no λ {refl → ¬p refl}
-package x ≡? truck x₁ = no (λ ())
-package x ≡? airplane x₁ = no (λ ())
-package x ≡? airport x₁ = no (λ ())
-package x ≡? city x₁ = no (λ ())
-package x ≡? vehicle x₁ = no (λ ())
-package x ≡? location x₁ = no (λ ())
-package x ≡? isAt x₁ x₂ = no (λ ())
-package x ≡? inCity x₁ x₂ = no (λ ())
-package x ≡? inVehicle x₁ x₂ = no (λ ())
-truck x ≡? package x₁ = no (λ ())
-truck x ≡? truck x' with x ≡o? x'
-(truck x ≡? truck x') | yes refl = yes refl
-(truck x ≡? truck x') | no ¬p = no (\ {refl -> ¬p refl})
-truck x ≡? airplane x₁ = no (λ ())
-truck x ≡? airport x₁ = no (λ ())
-truck x ≡? city x₁ = no (λ ())
-truck x ≡? vehicle x₁ = no (λ ())
-truck x ≡? location x₁ = no (λ ())
-truck x ≡? isAt x₁ x₂ = no (λ ())
-truck x ≡? inCity x₁ x₂ = no (λ ())
-truck x ≡? inVehicle x₁ x₂ = no (λ ())
-airplane x ≡? package x₁ = no (λ ())
-airplane x ≡? truck x₁ = no (λ ())
-airplane x ≡? airplane x' with x ≡o? x'
-(airplane x ≡? airplane x') | yes refl = yes refl
-(airplane x ≡? airplane x') | no ¬p = no (\ {refl -> ¬p refl})
-airplane x ≡? airport x₁ = no (λ ())
-airplane x ≡? city x₁ = no (λ ())
-airplane x ≡? vehicle x₁ = no (λ ())
-airplane x ≡? location x₁ = no (λ ())
-airplane x ≡? isAt x₁ x₂ = no (λ ())
-airplane x ≡? inCity x₁ x₂ = no (λ ())
-airplane x ≡? inVehicle x₁ x₂ = no (λ ())
-airport x ≡? package x₁ = no (λ ())
-airport x ≡? truck x₁ = no (λ ())
-airport x ≡? airplane x₁ = no (λ ())
-airport x ≡? airport x' with x ≡o? x'
-(airport x ≡? airport .x) | yes refl = yes refl
-(airport x ≡? airport x') | no ¬p = no (\ {refl -> ¬p refl})
-airport x ≡? city x₁ = no (λ ())
-airport x ≡? vehicle x₁ = no (λ ())
-airport x ≡? location x₁ = no (λ ())
-airport x ≡? isAt x₁ x₂ = no (λ ())
-airport x ≡? inCity x₁ x₂ = no (λ ())
-airport x ≡? inVehicle x₁ x₂ = no (λ ())
-city x ≡? package x₁ = no (λ ())
-city x ≡? truck x₁ = no (λ ())
-city x ≡? airplane x₁ = no (λ ())
-city x ≡? airport x₁ = no (λ ())
-city x ≡? city x' with x ≡o? x'
-(city x ≡? city .x) | yes refl = yes refl
-(city x ≡? city x') | no ¬p = no (\ {refl -> ¬p refl})
-city x ≡? vehicle x₁ = no (λ ())
-city x ≡? location x₁ = no (λ ())
-city x ≡? isAt x₁ x₂ = no (λ ())
-city x ≡? inCity x₁ x₂ = no (λ ())
-city x ≡? inVehicle x₁ x₂ = no (λ ())
-vehicle x ≡? package x₁ = no (λ ())
-vehicle x ≡? truck x₁ = no (λ ())
-vehicle x ≡? airplane x₁ = no (λ ())
-vehicle x ≡? airport x₁ = no (λ ())
-vehicle x ≡? city x₁ = no (λ ())
-vehicle x ≡? vehicle x' with x ≡o? x'
-(vehicle x ≡? vehicle .x) | yes refl = yes refl
-(vehicle x ≡? vehicle x') | no ¬p = no (\ {refl -> ¬p refl})
-vehicle x ≡? location x₁ = no (λ ())
-vehicle x ≡? isAt x₁ x₂ = no (λ ())
-vehicle x ≡? inCity x₁ x₂ = no (λ ())
-vehicle x ≡? inVehicle x₁ x₂ = no (λ ())
-location x ≡? package x₁ = no (λ ())
-location x ≡? truck x₁ = no (λ ())
-location x ≡? airplane x₁ = no (λ ())
-location x ≡? airport x₁ = no (λ ())
-location x ≡? city x₁ = no (λ ())
-location x ≡? vehicle x₁ = no (λ ())
-location x ≡? location x' with x ≡o? x'
-(location x ≡? location .x) | yes refl = yes refl
-(location x ≡? location x') | no ¬p = no (\ {refl -> ¬p refl})
-location x ≡? isAt x₁ x₂ = no (λ ())
-location x ≡? inCity x₁ x₂ = no (λ ())
-location x ≡? inVehicle x₁ x₂ = no (λ ())
-isAt x x₁ ≡? package x₂ = no (λ ())
-isAt x x₁ ≡? truck x₂ = no (λ ())
-isAt x x₁ ≡? airplane x₂ = no (λ ())
-isAt x x₁ ≡? airport x₂ = no (λ ())
-isAt x x₁ ≡? city x₂ = no (λ ())
-isAt x x₁ ≡? vehicle x₂ = no (λ ())
-isAt x x₁ ≡? location x₂ = no (λ ())
-isAt x x1 ≡? isAt x' x1' with x ≡o? x' | x1 ≡o? x1'
-(isAt x x1 ≡? isAt .x .x1) | yes refl | yes refl = yes refl
-(isAt x x1 ≡? isAt x' x1') | yes p | no ¬p = no (\ {refl -> ¬p refl})
-(isAt x x1 ≡? isAt x' x1') | no ¬p | yes p = no (\ {refl -> ¬p refl})
-(isAt x x1 ≡? isAt x' x1') | no ¬p | no ¬p₁ = no (\ {refl -> ¬p refl})
-isAt x x₁ ≡? inCity x₂ x₃ = no (λ ())
-isAt x x₁ ≡? inVehicle x₂ x₃ = no (λ ())
-inCity x x₁ ≡? package x₂ = no (λ ())
-inCity x x₁ ≡? truck x₂ = no (λ ())
-inCity x x₁ ≡? airplane x₂ = no (λ ())
-inCity x x₁ ≡? airport x₂ = no (λ ())
-inCity x x₁ ≡? city x₂ = no (λ ())
-inCity x x₁ ≡? vehicle x₂ = no (λ ())
-inCity x x₁ ≡? location x₂ = no (λ ())
-inCity x x₁ ≡? isAt x₂ x₃ = no (λ ())
-inCity x x1 ≡? inCity x' x1'  with x ≡o? x' | x1 ≡o? x1'
-(inCity x x1 ≡? inCity .x .x1) | yes refl | yes refl = yes refl
-(inCity x x1 ≡? inCity x' x1') | yes p | no ¬p = no (\ {refl -> ¬p refl})
-(inCity x x1 ≡? inCity x' x1') | no ¬p | yes p = no (\ {refl -> ¬p refl})
-(inCity x x1 ≡? inCity x' x1') | no ¬p | no ¬p₁ = no (\ {refl -> ¬p refl})
-inCity x x₁ ≡? inVehicle x₂ x₃ = no (λ ())
-inVehicle x x₁ ≡? package x₂ = no (λ ())
-inVehicle x x₁ ≡? truck x₂ = no (λ ())
-inVehicle x x₁ ≡? airplane x₂ = no (λ ())
-inVehicle x x₁ ≡? airport x₂ = no (λ ())
-inVehicle x x₁ ≡? city x₂ = no (λ ())
-inVehicle x x₁ ≡? vehicle x₂ = no (λ ())
-inVehicle x x₁ ≡? location x₂ = no (λ ())
-inVehicle x x₁ ≡? isAt x₂ x₃ = no (λ ())
-inVehicle x x₁ ≡? inCity x₂ x₃ = no (λ ())
-inVehicle x x1 ≡? inVehicle x' x1'  with x ≡o? x' | x1 ≡o? x1'
-(inVehicle x x1 ≡? inVehicle .x .x1) | yes refl | yes refl = yes refl
-(inVehicle x x1 ≡? inVehicle x' x1') | yes p | no ¬p = no (\ {refl -> ¬p refl})
-(inVehicle x x1 ≡? inVehicle x' x1') | no ¬p | yes p = no (\ {refl -> ¬p refl})
-(inVehicle x x1 ≡? inVehicle x' x1') | no ¬p | no ¬p₁ = no (\ {refl -> ¬p refl})
+-- EqR : Eq R
+unquoteDecl EqR = deriveEq EqR (quote R)
+
+open import Mangle using (mangle)
 
 -- Instatiation of decidability of predicates to the IsDecEquivalence type
 isDecidable : IsDecEquivalence {zero} {zero} (_≡_ {A = R})
@@ -290,7 +50,7 @@ isDecidable = record { isEquivalence = record {
   refl = λ {x} → refl ;
   sym = λ x → sym x ;
   trans = trans } ;
-  _≟_ = _≡?_  }
+  _≟_ = mangle  }
 
 -- Actions
 data Action : Set where
