@@ -1,0 +1,3 @@
+name: pcplans-padl-2019 -- 2019 is version number
+depend: standard-library agda-prelude
+include: ./
